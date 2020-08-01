@@ -1,50 +1,55 @@
-
+var ball;
+var ground;
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Body = Matter.Body;
+const Render = Matter.Render;
 
-var options={
-    isStatic:false,
-    restitution:0.3,
-    friction:0.5,
-    density:1.2,
-}
-var paperObject;
-function preload()
-{
-	
-}
 
 function setup() {
-	createCanvas(1600, 700);
-    engine = Engine.create();
+	createCanvas(800, 400);
+
+	ball = createSprite(300,200,20,20);
+	ball.shapeColor='blue';
+	ground=createSprite(400,350,800,10);
+	ground.shapeColor='rgb(255, 203, 43)';
+	box1=createSprite(550,340,100,10);
+	box1.shapeColor='red';
+	box2=createSprite(500,305,10,80);
+	box2.shapeColor='red';
+	box3=createSprite(600,305,10,80);
+	box3.shapeColor='red';
+	engine = Engine.create();
 	world = engine.world;
 
-	//Create the Bodies Here.
-	box1=createSprite(101,100,30,30);
-	box2=createSprite(101,100,30,30);
-	box3=createSprite(101,100,30,30);
-	Matter.Bodies.circle(70,100,[options]);
+	ball = Bodies.circle(width/2 , 200 , 5 , {restitution:1.5, isStatic:false});
+	World.add(world, ball);
+	
+	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
+ 	World.add(world, ground);
+	 
+	 if (keyDown(UP_ARROW)){
+		 ball.displace(box1);
+	 }
 
-	Engine.run(engine);
+	
   
 }
 
 
 function draw() {
   rectMode(CENTER);
-  background(255,0,0);
+  background(rgb(64, 249, 228));
+  Engine.run(engine);
   
-  
+
   drawSprites();
- 
+  
 }
-function keyPressed(){
-	if(keyCode === UP_ARROW){
-		Matter.Body.applyForce(paperObject.body.paperObject.body.position,{x:85,y:85});
+
+function ketPressed(){
+	if (keyCode===UP_ARROW){
+		Matter.Body.applyForce(paperObject.body,paperObject.body.position,{x:300,y:300});
 	}
 }
-
-
-
